@@ -7,7 +7,7 @@ How to build a coffee beans recommendation with Neo4J and Quarkus.
 
 TODO
 
-Requires Docker, Maven, JDK 14, and `cypher-shell` (or alternatively run the Cypher-Queries in your IDE or the http://localhost:7474/browser/[Neo4J Browser^]).
+Requires Docker, Maven, JDK 16, and `cypher-shell` (or alternatively run the Cypher-Queries in your IDE or the http://localhost:7474/browser/[Neo4J Browser^]).
 
 You can start a fresh Neo4J instance with:
 
@@ -28,7 +28,7 @@ Then build and run the application:
 [source,bash]
 ----
 mvn package
-java -jar target/quarkus-app/quarkus-run.jar 
+java -jar target/favorite-coffee-runner.jar
 ----
 
 Or you run the development mode with:
@@ -38,11 +38,4 @@ Or you run the development mode with:
 mvn quarkus:dev
 ----
 
-Then query the coffee beans with (with or without `jq`):
-
-[source,bash]
-----
-curl localhost:8080/beans/ | jq .
-curl "localhost:8080/beans?flavor=fruit" | jq .
-curl localhost:8080/beans/special | jq .
-----
+Then, explore the coffee website at: http://localhost:8080/
