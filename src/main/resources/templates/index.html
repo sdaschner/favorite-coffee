@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Coffee beans</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<h2>All coffee beans ({beans.size})</h2>
+<p class="small">Sort by:
+    <a class="{#when sortBy}{#is in NAME}active{/when}" href="/?sortBy=name">name</a>
+    <a class="{#when sortBy}{#is in RATING}active{/when}" href="/?sortBy=rating">rating</a>
+    <a class="{#when sortBy}{#is in RECOMMENDATION}active{/when}" href="/?sortBy=recommendation">recommendation</a>
+</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Origin</th>
+        <th>Tastes</th>
+        <th></th>
+    </tr>
+    {#for bean in beans}
+    <tr data-bean="{bean.uuid}">
+        <td>{bean.name}</td>
+        <td>{bean.origin.country}</td>
+        <td>
+            {#for profile in bean.flavorProfiles}
+            {profile.flavor.name}: {profile.percentageToString}{#if hasNext}, {/if}
+            {/for}
+        </td>
+        <td>
+            <a class="rating {#if bean.userRating && bean.userRating.rating >= 1}rated{/if}" data-rating="1" href="#"><span class="material-icons">grade</span></a>
+            <a class="rating {#if bean.userRating && bean.userRating.rating >= 2}rated{/if}" data-rating="2" href="#"><span class="material-icons">grade</span></a>
+            <a class="rating {#if bean.userRating && bean.userRating.rating == 3}rated{/if}" data-rating="3" href="#"><span class="material-icons">grade</span></a>
+        </td>
+    </tr>
+    {/for}
+</table>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    a {
+        text-decoration: underline;
+        color: #000;
+    }
+
+    a:hover, a.active {
+        color: #888;
+    }
+
+    table {
+        border-spacing: 0;
+    }
+
+    td, th {
+        text-align: left;
+        padding: 0.2rem 1rem 0.2rem 0.2rem;
+    }
+
+    td {
+        font-size: 0.9rem;
+    }
+
+    td:last-child {
+        padding: 0.2rem;
+    }
+
+    td .material-icons {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    td a.rating.rated .material-icons, td a.rating.hover .material-icons {
+        color: #fff239;
+        text-shadow: 0 0 3px #666;
+    }
+
+    tr:nth-child(even) {
+        background: #eee;
+    }
+
+    tr:nth-child(odd) {
+        background: #fff;
+    }
+
+    p.small {
+        font-size: 0.85rem;
+    }
+</style>
+<script src="/ratings.js"></script>
+</body>
+</html>
