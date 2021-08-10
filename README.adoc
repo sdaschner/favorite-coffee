@@ -5,8 +5,6 @@ How to build a coffee beans recommendation with Neo4J and Quarkus.
 
 == To try
 
-TODO
-
 Requires Docker, Maven, JDK 16, and `cypher-shell` (or alternatively run the Cypher-Queries in your IDE or the http://localhost:7474/browser/[Neo4J Browser^]).
 
 You can start a fresh Neo4J instance with:
