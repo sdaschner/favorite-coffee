@@ -2,6 +2,7 @@ package com.sebastian_daschner.coffee.beans.entity;
 
 import com.sebastian_daschner.coffee.beans.FlavorTypeSerializer;
 import org.neo4j.ogm.annotation.Id;
+import org.neo4j.ogm.annotation.NodeEntity;
 
 import javax.json.bind.annotation.JsonbTypeSerializer;
 import java.util.Objects;
@@ -9,6 +10,7 @@ import java.util.Objects;
 /**
  * The Coffee flavors, following https://notbadcoffee.com/flavor-wheel-en.
  */
+@NodeEntity
 @JsonbTypeSerializer(FlavorTypeSerializer.class)
 public class Flavor {
 

@@ -31,14 +31,26 @@ MATCH (user:User)-[:RATED {rating: 3}]-(:CoffeeBean)-[tastes:TASTES]-(flavor:Fla
 WITH user, tastes, flavor, tastes.percentage * count(tastes) as weight
 RETURN flavor, sum(weight)
 
+// flavor weights
+MATCH (flavor:Flavor)
+OPTIONAL MATCH (:User)-[rated:RATED]-(:CoffeeBean)-[tastes:TASTES]-(flavor)
+WITH coalesce(rated.rating, 2) - 2 as rating, coalesce(tastes.percentage, 1.0) as percentage, flavor
+RETURN flavor, sum(rating * percentage) as weight
+ORDER BY weight;
+
+
 // ranking of all beans
-MATCH (user:User)-[:RATED {rating: 3}]-(:CoffeeBean)-[tastes:TASTES]-(flavor:Flavor)
-WITH user, flavor, tastes.percentage * count(tastes) as weight
-WITH user, flavor, sum(weight) as weight
-MATCH (bean)-[tastes:TASTES]-(flavor)
-WITH bean, sum(tastes.percentage * weight) as weight
-RETURN bean.name, weight
-ORDER BY weight DESC;
+MATCH (flavor:Flavor)
+OPTIONAL MATCH (:User)-[rated:RATED]-(:CoffeeBean)-[tastes:TASTES]-(flavor)
+WITH coalesce(rated.rating, 2) - 2 as rating, coalesce(tastes.percentage, 1.0) as percentage, flavor
+WITH flavor, sum(rating * percentage) as flavorWeight
+MATCH (bean:CoffeeBean)-[tastes:TASTES]-(flavor)
+OPTIONAL MATCH (bean)-[isFrom:IS_FROM]-(origin:Origin)
+OPTIONAL MATCH (user:User)-[r:RATED]-(bean)
+WITH bean, isFrom, origin, collect(tastes) as tastes, collect(flavor) as flavors, r, user, sum(flavorWeight * tastes.percentage) as weight
+RETURN bean, isFrom, origin, tastes, flavors, r, user
+ORDER BY weight DESC, bean.name ASC;
+
 
 // recommendations
 MATCH (user:User)-[:RATED {rating: 3}]-(:CoffeeBean)-[tastes:TASTES]-(flavor:Flavor)
