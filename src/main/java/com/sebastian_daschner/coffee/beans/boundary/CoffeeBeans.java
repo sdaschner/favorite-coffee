@@ -43,11 +43,11 @@ public class CoffeeBeans {
     private List<CoffeeBean> coffeeBeansSortByRating(Session session) {
         Iterable<CoffeeBean> result = session.query(CoffeeBean.class, """
                         MATCH (bean:CoffeeBean)
-                        OPTIONAL MATCH (bean)-[isFrom:IS_FROM]-(origin:Origin)
-                        OPTIONAL MATCH (bean)-[tastes:TASTES]-(flavor:Flavor)
-                        OPTIONAL MATCH (user:User)-[r:RATED]-(bean)
+                        OPTIONAL MATCH (bean)-[isFrom:IS_FROM]->(origin:Origin)
+                        OPTIONAL MATCH (bean)-[tastes:TASTES]->(flavor:Flavor)
+                        OPTIONAL MATCH (user:User)-[r:RATED]->(bean)
                         WITH bean, isFrom, origin, collect(tastes) as tastes, collect(flavor) as flavors, r, user, coalesce(r.rating, 0) as rating
-                        RETURN bean, isFrom, origin, tastes, flavors, r, user
+                        RETURN *
                         ORDER by rating DESC, bean.name ASC;
                         """,
                 Map.of());
@@ -57,14 +57,14 @@ public class CoffeeBeans {
     private List<CoffeeBean> coffeeBeansSortByRecommendation(Session session) {
         Iterable<CoffeeBean> result = session.query(CoffeeBean.class, """
                         MATCH (flavor:Flavor)
-                        OPTIONAL MATCH (:User)-[rated:RATED]-(:CoffeeBean)-[tastes:TASTES]-(flavor)
+                        OPTIONAL MATCH (:User)-[rated:RATED]->(:CoffeeBean)-[tastes:TASTES]->(flavor)
                         WITH coalesce(rated.rating, 2) - 2 as rating, coalesce(tastes.percentage, 1.0) as percentage, flavor
                         WITH flavor, sum(rating * percentage) as flavorWeight
-                        MATCH (bean:CoffeeBean)-[tastes:TASTES]-(flavor)
-                        OPTIONAL MATCH (bean)-[isFrom:IS_FROM]-(origin:Origin)
-                        OPTIONAL MATCH (user:User)-[r:RATED]-(bean)
+                        MATCH (bean:CoffeeBean)-[tastes:TASTES]->(flavor)
+                        OPTIONAL MATCH (bean)-[isFrom:IS_FROM]->(origin:Origin)
+                        OPTIONAL MATCH (user:User)-[r:RATED]->(bean)
                         WITH bean, isFrom, origin, collect(tastes) as tastes, collect(flavor) as flavors, r, user, sum(flavorWeight * tastes.percentage) as weight
-                        RETURN bean, isFrom, origin, tastes, flavors, r, user
+                        RETURN *
                         ORDER BY weight DESC, bean.name ASC;
                         """,
                 Map.of());

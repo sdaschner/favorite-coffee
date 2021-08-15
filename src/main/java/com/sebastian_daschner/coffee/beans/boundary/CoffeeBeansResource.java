@@ -28,7 +28,7 @@ public class CoffeeBeansResource {
     @GET
     public List<CoffeeBean> beans(@QueryParam("flavor") @DefaultValue("") String flavor) {
         if (!flavor.isBlank())
-            return coffeeBeans.getCoffeeBeansSpecificFlavor(flavor.toUpperCase());
+            return coffeeBeans.getCoffeeBeansSpecificFlavor(flavor);
         return coffeeBeans.getCoffeeBeans();
     }
 
