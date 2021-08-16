@@ -1,5 +1,6 @@
-package com.sebastian_daschner.coffee.beans.entity;
+package com.sebastian_daschner.coffee.user.entity;
 
+import com.sebastian_daschner.coffee.beans.entity.CoffeeBean;
 import org.neo4j.ogm.annotation.*;
 
 import java.util.Objects;

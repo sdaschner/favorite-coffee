@@ -1,4 +1,4 @@
-package com.sebastian_daschner.coffee.beans.entity;
+package com.sebastian_daschner.coffee.user.entity;
 
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;

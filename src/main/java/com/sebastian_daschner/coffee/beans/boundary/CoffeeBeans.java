@@ -1,6 +1,8 @@
 package com.sebastian_daschner.coffee.beans.boundary;
 
 import com.sebastian_daschner.coffee.beans.entity.*;
+import com.sebastian_daschner.coffee.user.entity.User;
+import com.sebastian_daschner.coffee.user.entity.UserRating;
 import org.neo4j.ogm.cypher.query.SortOrder;
 import org.neo4j.ogm.session.Session;
 import org.neo4j.ogm.session.SessionFactory;
@@ -26,6 +28,20 @@ public class CoffeeBeans {
 
     public List<CoffeeBean> getCoffeeBeans() {
         return getCoffeeBeans(null);
+    }
+
+    public List<CoffeeBean> getRatedCoffeeBeans() {
+        Session session = sessionFactory.openSession();
+
+        Iterable<CoffeeBean> result = session.query(CoffeeBean.class, """
+                        MATCH (bean:CoffeeBean)<-[r:RATED]-(user:User)
+                        OPTIONAL MATCH (bean)-[isFrom:IS_FROM]->(origin:Origin)
+                        OPTIONAL MATCH (bean)-[tastes:TASTES]->(flavor:Flavor)
+                        RETURN bean, isFrom, origin, collect(tastes) as tastes, collect(flavor) as flavors, r, user
+                        ORDER by r.rating DESC, bean.name ASC;
+                        """,
+                Map.of());
+        return resultList(result);
     }
 
     public List<CoffeeBean> getCoffeeBeans(SortCriteria sortCriteria) {
@@ -99,6 +115,47 @@ public class CoffeeBeans {
                         """,
                 Map.of());
 
+        return resultList(result);
+    }
+
+    public List<CoffeeBean> getRecommendedBeans() {
+        Session session = sessionFactory.openSession();
+
+        // similar to coffeeBeansSortByRecommendation(), but doesn't contain rated beans
+        Iterable<CoffeeBean> result = session.query(CoffeeBean.class, """
+                        MATCH (flavor:Flavor)
+                        OPTIONAL MATCH (:User)-[rated:RATED]->(:CoffeeBean)-[tastes:TASTES]->(flavor)
+                        WITH coalesce(rated.rating, 2) - 2 as rating, coalesce(tastes.percentage, 1.0) as percentage, flavor
+                        WITH flavor, sum(rating * percentage) as flavorWeight
+                        MATCH (bean:CoffeeBean)-[tastes:TASTES]->(flavor)
+                        WHERE NOT (bean)<-[:RATED]-(:User)
+                        OPTIONAL MATCH (bean)-[isFrom:IS_FROM]->(origin:Origin)
+                        WITH bean, isFrom, origin, collect(tastes) as tastes, collect(flavor) as flavors, sum(flavorWeight * tastes.percentage) as weight
+                        RETURN *
+                        ORDER BY weight DESC, bean.name ASC
+                        LIMIT 10;
+                        """,
+                Map.of());
+        return resultList(result);
+    }
+
+    public List<CoffeeBean> getUntestedCoffeeBeans() {
+        Session session = sessionFactory.openSession();
+
+        // sort flavors by not having been rated before, beans with these flavors that haven't been rated
+        Iterable<CoffeeBean> result = session.query(CoffeeBean.class, """
+                        MATCH (flavor:Flavor)
+                        OPTIONAL MATCH (:User)-[rated:RATED]->(:CoffeeBean)-[tastes:TASTES]->(flavor)
+                        WITH coalesce(rated.rating, 0) as rating, coalesce(tastes.percentage, 1.0) as percentage, flavor
+                        WITH flavor, sum(rating * percentage) as flavorWeight
+                        MATCH (bean:CoffeeBean)-[tastes:TASTES]->(flavor)
+                          WHERE NOT (bean)<-[:RATED]-(:User)
+                        OPTIONAL MATCH (bean)-[isFrom:IS_FROM]->(origin:Origin)
+                        RETURN bean, isFrom, origin, collect(tastes), collect(flavor), sum(flavorWeight) as weight
+                        ORDER BY weight ASC
+                        LIMIT 10;
+                        """,
+                Map.of());
         return resultList(result);
     }
 

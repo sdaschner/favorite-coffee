@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 1rem;
+    width: max-content;
+}
+
+a {
+    text-decoration: underline;
+    color: #000;
+}
+
+a:hover, a.active {
+    color: #888;
+}
+
+table {
+    border-spacing: 0;
+}
+
+td, th {
+    text-align: left;
+    padding: 0.2rem 1rem 0.2rem 0.2rem;
+}
+
+td {
+    font-size: 0.9rem;
+}
+
+td:last-child {
+    padding: 0.2rem;
+}
+
+td .material-icons {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+td a.rating.rated .material-icons, td a.rating.hover .material-icons, td span.rated .material-icons {
+    color: #fff239;
+    text-shadow: 0 0 3px #666;
+}
+
+tr:nth-child(even) {
+    background: #eee;
+}
+
+tr:nth-child(odd) {
+    background: #fff;
+}
+
+p.small {
+    font-size: 0.85rem;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 1rem 0 2rem 0;
+    width: 40rem;
+}
+
+a.nav-link {
+    float: right;
+    font-size: 0.9rem;
+}

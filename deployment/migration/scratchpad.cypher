@@ -94,4 +94,14 @@ WHERE NOT (user)-[:RATED]->(bean)
 AND none(f in flavors where f in beanFlavors)
 return bean.name
 
+// new, untested beans
+// not liked, not disliked, ideally with flavors that haven't been rated
 
+MATCH (flavor:Flavor)
+OPTIONAL MATCH (:User)-[rated:RATED]->(:CoffeeBean)-[tastes:TASTES]->(flavor)
+WITH coalesce(rated.rating, 0) as rating, coalesce(tastes.percentage, 1.0) as percentage, flavor
+WITH flavor, sum(rating * percentage) as flavorWeight
+MATCH (bean:CoffeeBean)-[tastes:TASTES]->(flavor)
+  WHERE NOT (bean)<-[:RATED]-(:User)
+RETURN bean, sum(flavorWeight) as weight
+  ORDER BY weight ASC;

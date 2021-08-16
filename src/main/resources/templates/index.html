@@ -6,8 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Coffee beans</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/style.css" rel="stylesheet">
 </head>
 <body>
+<a href="/profile" class="nav-link">User profile</a>
 <h2>All coffee beans ({beans.size})</h2>
 <p class="small">Sort by:
     <a class="{#when sortBy}{#is in NAME}active{/when}" href="/?sortBy=name">name</a>
@@ -38,59 +40,6 @@
     </tr>
     {/for}
 </table>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-    }
-
-    a {
-        text-decoration: underline;
-        color: #000;
-    }
-
-    a:hover, a.active {
-        color: #888;
-    }
-
-    table {
-        border-spacing: 0;
-    }
-
-    td, th {
-        text-align: left;
-        padding: 0.2rem 1rem 0.2rem 0.2rem;
-    }
-
-    td {
-        font-size: 0.9rem;
-    }
-
-    td:last-child {
-        padding: 0.2rem;
-    }
-
-    td .material-icons {
-        font-size: 0.9rem;
-        color: #666;
-    }
-
-    td a.rating.rated .material-icons, td a.rating.hover .material-icons {
-        color: #fff239;
-        text-shadow: 0 0 3px #666;
-    }
-
-    tr:nth-child(even) {
-        background: #eee;
-    }
-
-    tr:nth-child(odd) {
-        background: #fff;
-    }
-
-    p.small {
-        font-size: 0.85rem;
-    }
-</style>
 <script src="/ratings.js"></script>
 </body>
 </html>

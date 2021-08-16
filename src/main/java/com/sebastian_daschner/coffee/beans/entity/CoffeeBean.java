@@ -1,6 +1,7 @@
 package com.sebastian_daschner.coffee.beans.entity;
 
-import com.sebastian_daschner.coffee.beans.control.UserRatingTypeAdapter;
+import com.sebastian_daschner.coffee.user.control.UserRatingTypeAdapter;
+import com.sebastian_daschner.coffee.user.entity.UserRating;
 import org.neo4j.ogm.annotation.*;
 import org.neo4j.ogm.annotation.typeconversion.Convert;
 import org.neo4j.ogm.id.UuidStrategy;

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User profile - Coffee beans</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/style.css" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="nav-link">All coffee beans</a>
+<h2>User Profile</h2>
+<h3>Rated coffee beans</h3>
+{#if ratedBeans.isEmpty}
+<p class="small"><i>You haven't rated any beans yet. After you've rated your first bean, we can show some recommendations.</i></p>
+{#else}
+<table>
+    {#for bean in ratedBeans}
+    <tr>
+        <td>{bean.name}</td>
+        <td>
+            <span class="{#if bean.userRating.rating >= 1}rated{/if}"><span class="material-icons">grade</span></span>
+            <span class="{#if bean.userRating.rating >= 2}rated{/if}"><span class="material-icons">grade</span></span>
+            <span class="{#if bean.userRating.rating == 3}rated{/if}"><span class="material-icons">grade</span></span>
+        </td>
+    </tr>
+    {/for}
+</table>
+<hr>
+
+<h3>Based on your preference</h3>
+<p class="small">These are coffee beans you haven't tried but likely match your tasted:</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Origin</th>
+        <th>Tastes</th>
+    </tr>
+    {#for bean in recommendedBeans}
+    <tr>
+        <td>{bean.name}</td>
+        <td>{bean.origin.country}</td>
+        <td>
+            {#for profile in bean.flavorProfiles}
+            {profile.flavor.name}: {profile.percentageToString}{#if hasNext}, {/if}
+            {/for}
+        </td>
+    </tr>
+    {/for}
+</table>
+<hr>
+
+<h3>New flavors</h3>
+<p class="small">Feeling adventurous? These are beans with flavors that you haven't tried before:</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Origin</th>
+        <th>Tastes</th>
+    </tr>
+    {#for bean in untestedBeans}
+    <tr>
+        <td>{bean.name}</td>
+        <td>{bean.origin.country}</td>
+        <td>
+            {#for profile in bean.flavorProfiles}
+            {profile.flavor.name}: {profile.percentageToString}{#if hasNext}, {/if}
+            {/for}
+        </td>
+    </tr>
+    {/for}
+</table>
+{/if}
+</body>
+</html>

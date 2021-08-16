@@ -1,6 +1,6 @@
-package com.sebastian_daschner.coffee.beans.control;
+package com.sebastian_daschner.coffee.user.control;
 
-import com.sebastian_daschner.coffee.beans.entity.UserRating;
+import com.sebastian_daschner.coffee.user.entity.UserRating;
 
 import javax.json.bind.adapter.JsonbAdapter;
 
