@@ -38,7 +38,15 @@ Then, explore the coffee website at: http://localhost:8080/
 
 You can create your online free cloud instance of Neo4j at https://dev.neo4j.com/aura
 
-After creating your database copy your connection URL and password into `application.properties`.
+After creating your database copy your connection URL and password into `application.properties`:
+
+----
+# Your Neo4J Aura URI, use `neo4j` instead of `neo4j+s`, due to a Quarkus issue in 2.1.2
+quarkus.neo4j.uri=neo4j://xxxxab01.databases.neo4j.io
+quarkus.neo4j.encrypted=true
+quarkus.neo4j.authentication.username=[...]
+quarkus.neo4j.authentication.password=[...]
+----
 
 Then you ou can package your application and run the jar (prod mode).
 
@@ -48,4 +56,6 @@ mvn package
 java -jar target/favorite-coffee-runner.jar
 ----
 
-// TODO == Deployment
+// == How does it work
+
+// See these blog posts at:
