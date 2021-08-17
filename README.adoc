@@ -5,7 +5,7 @@ How to build a coffee beans recommendation with Neo4j and Quarkus.
 
 == Development
 
-Requires Docker, Maven, JDK 16 (eg via sdkman).
+Requires JDK 16, Maven, and Docker.
 
 
 You can start a fresh Neo4j instance with:
@@ -19,7 +19,7 @@ In another terminal, run the following to create the sample data:
 
 [source,bash]
 ----
-docker exec `docker ps -qf name=graph-db` /var/lib/neo4j/bin/cypher-shell -u neo4j -p test --file /import/load-coffee-data.cypher
+docker exec graph-db /var/lib/neo4j/bin/cypher-shell -u neo4j -p test --file /import/load-coffee-data.cypher
 ----
 
 Or alternatively run the Cypher-Queries in your IDE or the http://localhost:7474/browser/[Neo4j Browser^].
@@ -38,17 +38,17 @@ Then, explore the coffee website at: http://localhost:8080/
 
 You can create your online free cloud instance of Neo4j at https://dev.neo4j.com/aura
 
-After creating your database copy your connection URL and password into `application.properties`:
+After creating your database, load the Cypher data, and update your `application.properties` with the connection URL and password:
 
 ----
-# Your Neo4J Aura URI, use `neo4j` instead of `neo4j+s`, due to a Quarkus issue in 2.1.2
+# Your Neo4j URI, use `neo4j` instead of `neo4j+s`, due to a Quarkus issue in 2.1.2
 quarkus.neo4j.uri=neo4j://xxxxab01.databases.neo4j.io
 quarkus.neo4j.encrypted=true
 quarkus.neo4j.authentication.username=[...]
 quarkus.neo4j.authentication.password=[...]
 ----
 
-Then you ou can package your application and run the jar (prod mode).
+Then you can package your application and run it in production mode.
 
 [source,bash]
 ----
