@@ -18,7 +18,7 @@ In another terminal, run the following to create the sample data:
 
 [source,bash]
 ----
-cypher-shell -u neo4j -p test --file deployment/migration/load-coffee-data.csv
+cypher-shell -u neo4j -p test --file deployment/migration/load-coffee-data.cypher
 ----
 
 Then build and run the application:
@@ -37,3 +37,7 @@ mvn quarkus:dev
 ----
 
 Then, explore the coffee website at: http://localhost:8080/
+
+// == How does it work
+
+// See these blog posts at:
