@@ -38,6 +38,17 @@ mvn quarkus:dev
 
 Then, explore the coffee website at: http://localhost:8080/
 
+In case running a Neo4J instance in Docker locally doesn't work for you, you can use https://neo4j.com/cloud/aura/[Neo4J Aura^] for a free instance.
+For this, change your `application.properties` as follows:
+
+----
+# Your Neo4J Aura URI, use `neo4j` instead of `neo4j+s`, due to a Quarkus issue in 2.1.2
+quarkus.neo4j.uri=neo4j://xxxxab01.databases.neo4j.io
+quarkus.neo4j.encrypted=true
+quarkus.neo4j.authentication.username=neo4j
+quarkus.neo4j.authentication.password=[...]
+----
+
 // == How does it work
 
 // See these blog posts at:
