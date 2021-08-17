@@ -1,13 +1,14 @@
-= Favorite Coffee -- Coffee recommendation with Neo4J and Quarkus
+= Favorite Coffee -- Coffee recommendation with Neo4j and Quarkus
 
-How to build a coffee beans recommendation with Neo4J and Quarkus.
+How to build a coffee beans recommendation with Neo4j and Quarkus.
 
 
-== To try
+== Development
 
-Requires Docker, Maven, JDK 16, and `cypher-shell` (or alternatively run the Cypher-Queries in your IDE or the http://localhost:7474/browser/[Neo4J Browser^]).
+Requires Docker, Maven, JDK 16 (eg via sdkman).
 
-You can start a fresh Neo4J instance with:
+
+You can start a fresh Neo4j instance with:
 
 [source,bash]
 ----
@@ -18,18 +19,13 @@ In another terminal, run the following to create the sample data:
 
 [source,bash]
 ----
-cypher-shell -u neo4j -p test --file deployment/migration/load-coffee-data.cypher
+docker exec `docker ps -qf name=graph-db` /var/lib/neo4j/bin/cypher-shell -u neo4j -p test --file /import/load-coffee-data.cypher
 ----
 
-Then build and run the application:
+Or alternatively run the Cypher-Queries in your IDE or the http://localhost:7474/browser/[Neo4j Browser^].
 
-[source,bash]
-----
-mvn package
-java -jar target/favorite-coffee-runner.jar
-----
 
-Or you run the development mode with:
+Then run the application in development mode (connecting to the local Neo4j server) with:
 
 [source,bash]
 ----
@@ -38,15 +34,26 @@ mvn quarkus:dev
 
 Then, explore the coffee website at: http://localhost:8080/
 
-In case running a Neo4J instance in Docker locally doesn't work for you, you can use https://neo4j.com/cloud/aura/[Neo4J Aura^] for a free instance.
-For this, change your `application.properties` as follows:
+== Production
+
+You can create your online free cloud instance of Neo4j at https://dev.neo4j.com/aura
+
+After creating your database copy your connection URL and password into `application.properties`:
 
 ----
 # Your Neo4J Aura URI, use `neo4j` instead of `neo4j+s`, due to a Quarkus issue in 2.1.2
 quarkus.neo4j.uri=neo4j://xxxxab01.databases.neo4j.io
 quarkus.neo4j.encrypted=true
-quarkus.neo4j.authentication.username=neo4j
+quarkus.neo4j.authentication.username=[...]
 quarkus.neo4j.authentication.password=[...]
+----
+
+Then you ou can package your application and run the jar (prod mode).
+
+[source,bash]
+----
+mvn package
+java -jar target/favorite-coffee-runner.jar
 ----
 
 // == How does it work
