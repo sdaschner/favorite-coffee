@@ -61,4 +61,4 @@ java -jar target/favorite-coffee-runner.jar
 
 == How does it work
 
-To get the full story, see this blog post and the explanation videos: https://blog.sebastian-daschner.com/entries/building-recommendations-with-neo4j
+https://blog.sebastian-daschner.com/entries/building-recommendations-with-neo4j
