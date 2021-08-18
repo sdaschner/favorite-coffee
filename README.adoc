@@ -1,6 +1,7 @@
 = Favorite Coffee -- Coffee recommendation with Neo4j and Quarkus
 
 How to build a coffee beans recommendation with Neo4j and Quarkus.
+To get the full story, see this blog post and the explanation videos: https://blog.sebastian-daschner.com/entries/building-recommendations-with-neo4j
 
 
 == Development
@@ -34,6 +35,7 @@ mvn quarkus:dev
 
 Then, explore the coffee website at: http://localhost:8080/
 
+
 == Production
 
 You can create your online free cloud instance of Neo4j at https://dev.neo4j.com/aura
@@ -56,6 +58,7 @@ mvn package
 java -jar target/favorite-coffee-runner.jar
 ----
 
-// == How does it work
 
-// See these blog posts at:
+== How does it work
+
+To get the full story, see this blog post and the explanation videos: https://blog.sebastian-daschner.com/entries/building-recommendations-with-neo4j
