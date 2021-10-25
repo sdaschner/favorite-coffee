@@ -15,7 +15,7 @@ MERGE (u)-[:RATED {rating: 1}]->(b);
 // simple recommendation based on liked flavors (no percentages or main flavors)
 MATCH (user:User)-[:RATED {rating: 3}]->(:CoffeeBean)-[tastes:TASTES]->(flavor:Flavor)
 MATCH (bean)-[:TASTES]->(flavor)
-WHERE NOT (user)-[:RATED]->(bean)
+WHERE NOT exists((user)-[:RATED]->(bean))
 RETURN bean;
 
 
@@ -57,7 +57,7 @@ MATCH (user:User)-[:RATED {rating: 3}]->(:CoffeeBean)-[tastes:TASTES]->(flavor:F
 WITH user, flavor, tastes.percentage * count(tastes) as weight
 WITH user, flavor, sum(weight) as weight
 MATCH (bean)-[tastes:TASTES]->(flavor)
-WHERE NOT (user)-[:RATED]->(bean)
+WHERE NOT exists((user)-[:RATED]->(bean))
 WITH bean, sum(tastes.percentage * weight) as weight
 RETURN bean.name, weight
 ORDER BY weight DESC;
@@ -82,7 +82,7 @@ return bean.name
 MATCH (user:User)-[:RATED {rating: 3}]->(:CoffeeBean)-[tastes:TASTES]->(flavor:Flavor)
 WITH user, collect(flavor) as flavors
 MATCH (bean:CoffeeBean)
-WHERE NOT (user)-[:RATED]->(bean)
+WHERE NOT exists((user)-[:RATED]->(bean))
 AND none(f in [(bean)-[:TASTES]->(f) | f] where f in flavors)
 RETURN bean.name
 
@@ -90,9 +90,13 @@ MATCH (user:User)-[:RATED {rating: 3}]->(:CoffeeBean)-[:TASTES]->(flavor:Flavor)
 WITH user, collect(flavor) as flavors
 MATCH (bean:CoffeeBean)-[:TASTES]->(flavor)
 WITH user, bean, flavors, collect(flavor) as beanFlavors
-WHERE NOT (user)-[:RATED]->(bean)
+WHERE NOT exists((user)-[:RATED]->(bean))
 AND none(f in flavors where f in beanFlavors)
 return bean.name
+
+
+
+
 
 // new, untested beans
 // not liked, not disliked, ideally with flavors that haven't been rated
@@ -102,6 +106,14 @@ OPTIONAL MATCH (:User)-[rated:RATED]->(:CoffeeBean)-[tastes:TASTES]->(flavor)
 WITH coalesce(rated.rating, 0) as rating, coalesce(tastes.percentage, 1.0) as percentage, flavor
 WITH flavor, sum(rating * percentage) as flavorWeight
 MATCH (bean:CoffeeBean)-[tastes:TASTES]->(flavor)
-  WHERE NOT (bean)<-[:RATED]-(:User)
+  WHERE NOT exists((bean)<-[:RATED]-(:User))
 RETURN bean, sum(flavorWeight) as weight
   ORDER BY weight ASC;
+
+
+
+
+
+
+
+

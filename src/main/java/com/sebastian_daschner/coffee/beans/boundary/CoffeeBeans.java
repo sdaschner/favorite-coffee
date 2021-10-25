@@ -107,7 +107,7 @@ public class CoffeeBeans {
 
         Iterable<CoffeeBean> result = session.query(CoffeeBean.class, """
                         MATCH (flavor)<-[:TASTES]-(b:CoffeeBean)-[isFrom:IS_FROM]->(country)
-                        WHERE NOT (country)-[:IS_KNOWN_FOR]->(flavor)
+                        WHERE NOT exists((country)-[:IS_KNOWN_FOR]->(flavor))
                         WITH b, country, isFrom
                         MATCH (b)-[tastes:TASTES]->(flavor)
                         RETURN b, collect(isFrom), collect(country), collect(tastes), collect(flavor)
@@ -128,7 +128,7 @@ public class CoffeeBeans {
                         WITH coalesce(rated.rating, 2) - 2 as rating, coalesce(tastes.percentage, 1.0) as percentage, flavor
                         WITH flavor, sum(rating * percentage) as flavorWeight
                         MATCH (bean:CoffeeBean)-[tastes:TASTES]->(flavor)
-                        WHERE NOT (bean)<-[:RATED]-(:User)
+                        WHERE NOT exists((bean)<-[:RATED]-(:User))
                         OPTIONAL MATCH (bean)-[isFrom:IS_FROM]->(origin:Origin)
                         WITH bean, isFrom, origin, collect(tastes) as tastes, collect(flavor) as flavors, sum(flavorWeight * tastes.percentage) as weight
                         RETURN *
@@ -149,7 +149,7 @@ public class CoffeeBeans {
                         WITH coalesce(rated.rating, 0) as rating, coalesce(tastes.percentage, 1.0) as percentage, flavor
                         WITH flavor, sum(rating * percentage) as flavorWeight
                         MATCH (bean:CoffeeBean)-[tastes:TASTES]->(flavor)
-                          WHERE NOT (bean)<-[:RATED]-(:User)
+                          WHERE NOT exists((bean)<-[:RATED]-(:User))
                         OPTIONAL MATCH (bean)-[isFrom:IS_FROM]->(origin:Origin)
                         RETURN bean, isFrom, origin, collect(tastes), collect(flavor), sum(flavorWeight) as weight
                         ORDER BY weight ASC
