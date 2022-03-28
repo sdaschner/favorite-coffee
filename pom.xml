@@ -31,24 +31,9 @@
             <artifactId>quarkus-smallrye-health</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-neo4j</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-ogm-core</artifactId>
-            <version>3.2.27</version>
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-ogm-bolt-driver</artifactId>
-            <version>3.2.27</version>
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-ogm-bolt-native-types</artifactId>
-            <version>3.2.27</version>
+            <groupId>eu.michael-simons.neo4j</groupId>
+            <artifactId>neo4j-ogm-quarkus</artifactId>
+            <version>1.0.2</version>
         </dependency>
 
         <dependency>
@@ -98,7 +83,7 @@
     </build>
 
     <properties>
-        <quarkus.version>2.4.0.Final</quarkus.version>
+        <quarkus.version>2.7.5.Final</quarkus.version>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

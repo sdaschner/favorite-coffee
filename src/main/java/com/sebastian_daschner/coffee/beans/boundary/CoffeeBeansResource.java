@@ -80,10 +80,4 @@ public class CoffeeBeansResource {
         coffeeBeans.rateBean(uuid, rating);
     }
 
-    @GET
-    @Path("special")
-    public List<CoffeeBean> specialBeans() {
-        return coffeeBeans.getCoffeeBeansWithUnexpectedFlavors();
-    }
-
 }

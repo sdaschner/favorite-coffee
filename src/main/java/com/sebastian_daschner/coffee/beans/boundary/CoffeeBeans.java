@@ -102,22 +102,6 @@ public class CoffeeBeans {
         return resultList(result);
     }
 
-    public List<CoffeeBean> getCoffeeBeansWithUnexpectedFlavors() {
-        Session session = sessionFactory.openSession();
-
-        Iterable<CoffeeBean> result = session.query(CoffeeBean.class, """
-                        MATCH (flavor)<-[:TASTES]-(b:CoffeeBean)-[isFrom:IS_FROM]->(country)
-                        WHERE NOT exists((country)-[:IS_KNOWN_FOR]->(flavor))
-                        WITH b, country, isFrom
-                        MATCH (b)-[tastes:TASTES]->(flavor)
-                        RETURN b, collect(isFrom), collect(country), collect(tastes), collect(flavor)
-                        ORDER by b.name;
-                        """,
-                Map.of());
-
-        return resultList(result);
-    }
-
     public List<CoffeeBean> getRecommendedBeans() {
         Session session = sessionFactory.openSession();
 

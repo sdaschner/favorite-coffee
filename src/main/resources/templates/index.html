@@ -29,7 +29,7 @@
         <td>{bean.origin.country}</td>
         <td>
             {#for profile in bean.flavorProfiles}
-            {profile.flavor.name}: {profile.percentageToString}{#if hasNext}, {/if}
+            {profile.flavor.name}: {profile.percentageToString}{#if profile_hasNext}, {/if}
             {/for}
         </td>
         <td>
