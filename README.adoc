@@ -55,7 +55,7 @@ Then you can package your application and run it in production mode.
 [source,bash]
 ----
 mvn package
-java -jar target/favorite-coffee-runner.jar
+java -jar target/quarkus-app/quarkus-run.jar
 ----
 
 
