@@ -1,6 +1,5 @@
 package com.sebastian_daschner.coffee.beans.boundary;
 
-import com.sebastian_daschner.coffee.graph.control.SessionFactoryProducer;
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
@@ -15,7 +14,7 @@ public class CoffeeBeansTD extends CoffeeBeans {
         String password = "test";
 
         Driver driver = GraphDatabase.driver(databaseUri, AuthTokens.basic(username, password));
-        sessionFactory = new SessionFactory(new BoltDriver(driver), SessionFactoryProducer.PACKAGES);
+        sessionFactory = new SessionFactory(new BoltDriver(driver), "com.sebastian_daschner.coffee.beans.entity", "com.sebastian_daschner.coffee.user.entity");
     }
 
 }
