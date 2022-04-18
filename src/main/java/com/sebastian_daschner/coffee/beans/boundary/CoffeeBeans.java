@@ -143,6 +143,29 @@ public class CoffeeBeans {
         return resultList(result);
     }
 
+    public List<CoffeeBean> search(String query) {
+        Session session = sessionFactory.openSession();
+        Iterable<CoffeeBean> iterable = session.query(CoffeeBean.class, """
+                CALL db.index.fulltext.queryNodes("beanNames", $query) YIELD node, score
+                WITH node, score
+                RETURN node
+                ORDER BY score DESC, node.name
+                """, Map.of("query", query));
+        return resultList(iterable);
+    }
+
+    public List<CoffeeBean> searchRegex(String regex) {
+        Session session = sessionFactory.openSession();
+        Iterable<CoffeeBean> iterable = session.query(CoffeeBean.class, """
+                MATCH (bean:CoffeeBean)
+                WHERE bean.name =~ $regex
+                RETURN bean
+                ORDER BY bean.name
+                """, Map.of("regex", regex));
+        return resultList(iterable);
+    }
+
+
     private List<CoffeeBean> resultList(Iterable<CoffeeBean> result) {
         ArrayList<CoffeeBean> coffeeBeans = new ArrayList<>();
         result.forEach(coffeeBeans::add);

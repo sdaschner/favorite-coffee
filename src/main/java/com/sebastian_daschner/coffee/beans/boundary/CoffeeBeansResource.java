@@ -80,4 +80,12 @@ public class CoffeeBeansResource {
         coffeeBeans.rateBean(uuid, rating);
     }
 
+    @POST
+    @Path("searches")
+    public List<CoffeeBean> search(@QueryParam("query") String query, @QueryParam("regex") @DefaultValue("false") boolean regex) {
+        if (regex)
+            return coffeeBeans.searchRegex(query);
+        return coffeeBeans.search(query);
+    }
+
 }

@@ -9,6 +9,7 @@ CREATE CONSTRAINT IF NOT EXISTS ON (n:CoffeeBean) ASSERT n.uuid IS UNIQUE;
 CREATE CONSTRAINT IF NOT EXISTS ON (n:Flavor) ASSERT n.name IS UNIQUE;
 CREATE CONSTRAINT IF NOT EXISTS ON (n:Origin) ASSERT n.country IS UNIQUE;
 CREATE CONSTRAINT IF NOT EXISTS ON (n:User) ASSERT n.name IS UNIQUE;
+CALL db.index.fulltext.createNodeIndex("beanNames", ["CoffeeBean"], ["name"]);
 
 // example:
 //   Name,Origin,Flavors
