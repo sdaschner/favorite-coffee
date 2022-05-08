@@ -31,9 +31,9 @@
             <artifactId>quarkus-smallrye-health</artifactId>
         </dependency>
         <dependency>
-            <groupId>eu.michael-simons.neo4j</groupId>
+            <groupId>org.neo4j</groupId>
             <artifactId>neo4j-ogm-quarkus</artifactId>
-            <version>1.0.2</version>
+            <version>1.2.0</version>
         </dependency>
 
         <dependency>
