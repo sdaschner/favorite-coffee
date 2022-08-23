@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-ogm-quarkus</artifactId>
-            <version>1.2.0</version>
+            <version>1.5.0</version>
         </dependency>
 
         <dependency>
@@ -83,7 +83,7 @@
     </build>
 
     <properties>
-        <quarkus.version>2.7.5.Final</quarkus.version>
+        <quarkus.version>2.11.2.Final</quarkus.version>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
