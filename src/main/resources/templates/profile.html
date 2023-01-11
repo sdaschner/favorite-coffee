@@ -12,17 +12,17 @@
 <a href="/" class="nav-link">All coffee beans</a>
 <h2>User Profile</h2>
 <h3>Rated coffee beans</h3>
-{#if ratedBeans.isEmpty}
+{#if beanRatings.isEmpty}
 <p class="small"><i>You haven't rated any beans yet. After you've rated your first bean, we can show some recommendations.</i></p>
 {#else}
 <table>
-    {#for bean in ratedBeans}
+    {#for rating in beanRatings}
     <tr>
-        <td>{bean.name}</td>
+        <td>{rating.name}</td>
         <td>
-            <span class="{#if bean.userRating.rating >= 1}rated{/if}"><span class="material-icons">grade</span></span>
-            <span class="{#if bean.userRating.rating >= 2}rated{/if}"><span class="material-icons">grade</span></span>
-            <span class="{#if bean.userRating.rating == 3}rated{/if}"><span class="material-icons">grade</span></span>
+            <span class="{#if rating.rating >= 1}rated{/if}"><span class="material-icons">grade</span></span>
+            <span class="{#if rating.rating >= 2}rated{/if}"><span class="material-icons">grade</span></span>
+            <span class="{#if rating.rating == 3}rated{/if}"><span class="material-icons">grade</span></span>
         </td>
     </tr>
     {/for}

@@ -30,18 +30,15 @@ public class CoffeeBeans {
         return getCoffeeBeans(null);
     }
 
-    public List<CoffeeBean> getRatedCoffeeBeans() {
+    public List<CoffeeBeanRating> getCoffeeBeanRatings() {
         Session session = sessionFactory.openSession();
 
-        Iterable<CoffeeBean> result = session.query(CoffeeBean.class, """
+        return session.queryDto("""
                         MATCH (bean:CoffeeBean)<-[r:RATED]-(user:User)
-                        OPTIONAL MATCH (bean)-[isFrom:IS_FROM]->(origin:Origin)
-                        OPTIONAL MATCH (bean)-[tastes:TASTES]->(flavor:Flavor)
-                        RETURN bean, isFrom, origin, collect(tastes) as tastes, collect(flavor) as flavors, r, user
-                        ORDER by r.rating DESC, bean.name ASC;
+                        RETURN bean.name as name, r.rating as rating
+                        ORDER by rating DESC, name ASC;
                         """,
-                Map.of());
-        return resultList(result);
+                Map.of(), CoffeeBeanRating.class);
     }
 
     public List<CoffeeBean> getCoffeeBeans(SortCriteria sortCriteria) {

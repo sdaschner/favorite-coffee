@@ -2,6 +2,7 @@ package com.sebastian_daschner.coffee.user.boundary;
 
 import com.sebastian_daschner.coffee.beans.boundary.CoffeeBeans;
 import com.sebastian_daschner.coffee.beans.entity.CoffeeBean;
+import com.sebastian_daschner.coffee.beans.entity.CoffeeBeanRating;
 import io.quarkus.qute.Location;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -25,11 +26,11 @@ public class UserPageController {
 
     @GET
     public TemplateInstance userPage() {
-        List<CoffeeBean> ratedBeans = coffeeBeans.getRatedCoffeeBeans();
+        List<CoffeeBeanRating> beanRatings = coffeeBeans.getCoffeeBeanRatings();
         List<CoffeeBean> recommendedBeans = coffeeBeans.getRecommendedBeans();
         List<CoffeeBean> untestedBeans = coffeeBeans.getUntestedCoffeeBeans();
 
-        return profile.data("ratedBeans", ratedBeans)
+        return profile.data("beanRatings", beanRatings)
                 .data("recommendedBeans", recommendedBeans)
                 .data("untestedBeans", untestedBeans);
     }
