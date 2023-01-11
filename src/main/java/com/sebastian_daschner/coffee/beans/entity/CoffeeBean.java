@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static org.neo4j.ogm.annotation.Relationship.Direction.INCOMING;
+
 @NodeEntity
 public class CoffeeBean {
 
@@ -31,7 +33,7 @@ public class CoffeeBean {
     @Relationship("TASTES")
     public Set<FlavorProfile> flavorProfiles = new HashSet<>();
 
-    @Relationship(value = "RATED", direction = "INCOMING")
+    @Relationship(value = "RATED", direction = INCOMING)
     @JsonbTypeAdapter(UserRatingTypeAdapter.class)
     public UserRating userRating;
 
