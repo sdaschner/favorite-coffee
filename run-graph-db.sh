@@ -14,7 +14,7 @@ docker run -d --rm \
   -v $(pwd)/deployment/migration:/import \
   -p 7474:7474 -p 7687:7687 \
   --env NEO4J_AUTH=neo4j/test "$@" \
-  neo4j:4.3.3
+  neo4j:4.4.12
 
 echo waiting for Neo4j...
 wget --quiet --tries=30 --waitretry=2 --retry-connrefused -O /dev/null http://localhost:7474
