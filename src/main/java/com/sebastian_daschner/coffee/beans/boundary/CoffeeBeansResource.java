@@ -1,6 +1,7 @@
 package com.sebastian_daschner.coffee.beans.boundary;
 
 import com.sebastian_daschner.coffee.beans.entity.CoffeeBean;
+import com.sebastian_daschner.coffee.beans.entity.CoffeeBeanRating;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -30,6 +31,24 @@ public class CoffeeBeansResource {
         if (!flavor.isBlank())
             return coffeeBeans.getCoffeeBeansSpecificFlavor(flavor);
         return coffeeBeans.getCoffeeBeans();
+    }
+
+    @GET
+    @Path("rated")
+    public List<CoffeeBeanRating> ratedBeans() {
+        return coffeeBeans.getCoffeeBeanRatings();
+    }
+
+    @GET
+    @Path("recommended")
+    public List<CoffeeBean> recommendedBeans() {
+        return coffeeBeans.getRecommendedBeans();
+    }
+
+    @GET
+    @Path("untested")
+    public List<CoffeeBean> untestedCoffeeBeans() {
+        return coffeeBeans.getUntestedCoffeeBeans();
     }
 
     @POST
@@ -75,9 +94,11 @@ public class CoffeeBeansResource {
 
     @PUT
     @Path("{uuid}/ratings")
-    public void rateBean(@PathParam("uuid") UUID uuid, JsonObject json) {
-        int rating = json.getJsonNumber("rating").intValue();
-        coffeeBeans.rateBean(uuid, rating);
+    public void rateBean(@PathParam("uuid") UUID uuid, BeanRatingRequest entity) {
+        coffeeBeans.rateBean(uuid, entity.rating());
+    }
+
+    public record BeanRatingRequest(int rating) {
     }
 
 }
